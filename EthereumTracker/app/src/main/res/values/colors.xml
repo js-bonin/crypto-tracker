@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="ethereum_light_teal">#79e7e7</color>
+    <color name="ethereum_teal">#48cbd9</color>
+
+    <color name="ethereum_light_grey">#ecf0f1</color>
+    <color name="ethereum_grey_purple">#c6c5d4</color>
+    <color name="ethereum_light_purple">#716b94</color>
+    <color name="ethereum_purple">#37367b</color>
+
+    <color name="ethereum_grey">#3c3c3d</color>
+    <color name="ethereum_gold">#c99d66</color>
+
+</resources>

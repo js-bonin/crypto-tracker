@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.EthereumTracker" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/ethereum_light_purple</item>
+        <item name="colorPrimaryVariant">@color/ethereum_purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/ethereum_light_teal</item>
+        <item name="colorSecondaryVariant">@color/ethereum_teal</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/ethereum_gold</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.EthereumTracker.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.EthereumTracker.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.EthereumTracker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
