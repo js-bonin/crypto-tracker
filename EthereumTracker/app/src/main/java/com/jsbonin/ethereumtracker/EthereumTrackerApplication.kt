@@ -20,7 +20,7 @@ class EthereumTrackerApplication: Application(), LifecycleObserver {
 
     private val applicationScope = MainScope()
 
-    val binanceTickerRepository: BinanceTickerRepository by lazy {
+    private val binanceTickerRepository: BinanceTickerRepository by lazy {
         BinanceTickerRepository(httpClient, applicationScope)
     }
 
