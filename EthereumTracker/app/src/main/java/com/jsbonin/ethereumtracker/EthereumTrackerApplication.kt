@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.jsbonin.ethereumtracker.repository.BinanceTickerRepository
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -12,26 +13,26 @@ import kotlinx.coroutines.MainScope
 
 class EthereumTrackerApplication: Application(), LifecycleObserver {
 
+    private val applicationScope = MainScope()
+
     private val httpClient = HttpClient(CIO) {
         install(WebSockets) {
             pingInterval = 30000L
         }
     }
 
-    private val applicationScope = MainScope()
-
-    private val binanceTickerRepository: BinanceTickerRepository by lazy {
+    val binanceTickerRepository: BinanceTickerRepository by lazy {
         BinanceTickerRepository(httpClient, applicationScope)
     }
 
     override fun onCreate() {
         super.onCreate()
-        binanceTickerRepository.connect()
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onApplicationStart() {
-
+        binanceTickerRepository.connect()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -41,11 +42,11 @@ class EthereumTrackerApplication: Application(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onApplicationStop() {
-
+        binanceTickerRepository.close()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onApplicationDestroyed() {
-
+        binanceTickerRepository.close()
     }
 }
