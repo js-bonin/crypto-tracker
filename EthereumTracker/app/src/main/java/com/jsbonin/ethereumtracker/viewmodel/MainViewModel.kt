@@ -4,25 +4,27 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.jsbonin.ethereumtracker.repository.BinanceTickerRepository
-import kotlinx.coroutines.flow.filter
+import com.jsbonin.ethereumtracker.model.PriceTrend
+import com.jsbonin.ethereumtracker.ui.theme.ethereumLightTeal
+import com.jsbonin.ethereumtracker.ui.theme.ethereumPink
+import com.jsbonin.ethereumtracker.usecase.EthereumTickerUseCase
 import kotlinx.coroutines.flow.map
-import kotlin.math.round
 
-class MainViewModel(application: Application, private val binanceTickerRepository: BinanceTickerRepository) : AndroidViewModel(application) {
+class MainViewModel(application: Application, private val ethereumTickerUseCase: EthereumTickerUseCase) : AndroidViewModel(application) {
 
-    fun ethereumPriceUSD() = binanceTickerRepository.ethMiniTickerFlow()
-        .map { it.closePrice }
-        .filter { it.isNotEmpty() }
-        .map { closePrice ->
-            val closePriceDouble = round(closePrice.toDouble() * 100) / 100
-            closePriceDouble.toString()
+    fun ethereumPriceUSD() = ethereumTickerUseCase.ethereumPriceUSD()
+
+    fun ethereumPriceColor() = ethereumTickerUseCase.lastPriceChangeTrend().map { trend ->
+        when (trend) {
+            PriceTrend.UP -> ethereumLightTeal
+            PriceTrend.DOWN -> ethereumPink
         }
+    }
 
-    class Factory(private val application: Application, private val binanceTickerRepository: BinanceTickerRepository) : ViewModelProvider.Factory {
+    class Factory(private val application: Application, private val ethereumTickerUseCase: EthereumTickerUseCase) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return MainViewModel(application, binanceTickerRepository) as T
+            return MainViewModel(application, ethereumTickerUseCase) as T
         }
     }
 }

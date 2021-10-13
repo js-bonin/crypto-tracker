@@ -2,12 +2,12 @@ package com.jsbonin.ethereumtracker.ui.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,12 +26,14 @@ import com.jsbonin.ethereumtracker.R
 import com.jsbonin.ethereumtracker.ui.theme.EthereumTrackerTheme
 import com.jsbonin.ethereumtracker.ui.theme.black
 import com.jsbonin.ethereumtracker.ui.theme.ethereumGold
-import com.jsbonin.ethereumtracker.ui.theme.ethereumGrey
+import com.jsbonin.ethereumtracker.ui.theme.white
 import com.jsbonin.ethereumtracker.viewmodel.MainViewModel
 
 @Composable
 fun MainView(viewModel: MainViewModel) {
     val ethPriceUSD = viewModel.ethereumPriceUSD().collectAsState(initial = "")
+    val ethPriceColor = viewModel.ethereumPriceColor().collectAsState(initial = white)
+
     EthereumTrackerTheme {
         BoxWithConstraints(
             Modifier
@@ -60,12 +62,13 @@ fun MainView(viewModel: MainViewModel) {
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(top = 226.dp)
-                    .background(color = ethereumGold, shape = RoundedCornerShape(12.dp))
+                    .background(color = black, shape = RoundedCornerShape(12.dp))
+                    .border(4.dp, color = ethereumGold, shape = RoundedCornerShape(12.dp))
                     .height(48.dp)
-                    .width(160.dp)
+                    .wrapContentWidth()
                     .padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp),
                 text = ethPriceUSD.value,
-                color = ethereumGrey,
+                color = ethPriceColor.value,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center

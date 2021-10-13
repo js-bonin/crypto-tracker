@@ -12,6 +12,7 @@ val ethereumLightGrey = Color(0xFFecf0f1)
 val ethereumGreyPurple = Color(0xFFc6c5d4)
 val ethereumLightPurple = Color(0xFF716b94)
 val ethereumPurple = Color(0xFF37367b)
+val ethereumPink = Color(0xFFD37FCC)
 
 val ethereumGrey = Color(0xFF3c3c3d)
 val ethereumGold = Color(0xFFc99d66)
