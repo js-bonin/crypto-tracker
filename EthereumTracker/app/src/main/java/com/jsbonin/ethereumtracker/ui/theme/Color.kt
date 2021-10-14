@@ -16,3 +16,6 @@ val ethereumPink = Color(0xFFD37FCC)
 
 val ethereumGrey = Color(0xFF3c3c3d)
 val ethereumGold = Color(0xFFc99d66)
+
+val upColor = ethereumLightTeal
+val downColor = ethereumPink

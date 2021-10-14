@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.jsbonin.ethereumtracker.model.PriceTrend
-import com.jsbonin.ethereumtracker.ui.theme.ethereumLightTeal
-import com.jsbonin.ethereumtracker.ui.theme.ethereumPink
+import com.jsbonin.ethereumtracker.ui.theme.downColor
+import com.jsbonin.ethereumtracker.ui.theme.upColor
 import com.jsbonin.ethereumtracker.usecase.EthereumTickerUseCase
 import kotlinx.coroutines.flow.map
 
@@ -16,8 +16,8 @@ class MainViewModel(application: Application, private val ethereumTickerUseCase:
 
     fun ethereumPriceColor() = ethereumTickerUseCase.lastPriceChangeTrend().map { trend ->
         when (trend) {
-            PriceTrend.UP -> ethereumLightTeal
-            PriceTrend.DOWN -> ethereumPink
+            PriceTrend.UP -> upColor
+            PriceTrend.DOWN -> downColor
         }
     }
 
