@@ -44,7 +44,7 @@ import com.jsbonin.ethereumtracker.viewmodel.MainViewModel
 
 @Composable
 fun MainView(viewModel: MainViewModel) {
-    val ethPriceUSD = viewModel.ethereumPriceUSD().collectAsState(initial = "")
+    val ethPriceUSD = viewModel.ethereumPriceUSD().collectAsState(initial = "------")
     val ethPriceColor = viewModel.ethereumPriceColor().collectAsState(initial = white)
 
     EthereumTrackerTheme {
@@ -72,6 +72,16 @@ fun MainView(viewModel: MainViewModel) {
                 quoteLogoPainter = painterResource(id = R.drawable.ic_logo_usdt)
             )
 
+            TickerView(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 308.dp),
+                priceFlow = ethPriceUSD,
+                priceColorFlow = ethPriceColor,
+                baseLogoPainter = painterResource(id = R.drawable.ic_logo_eth),
+                quoteLogoPainter = painterResource(id = R.drawable.ic_logo_btc)
+            )
+
         }
 
     }
@@ -87,63 +97,86 @@ fun TickerView(
 ) {
     Box(
         modifier = modifier
-            .border(4.dp, color = ethereumGold, shape = RoundedCornerShape(12.dp))
-            .height(56.dp)
+            .height(76.dp)
             .wrapContentWidth()
-            .background(color = black, shape = RoundedCornerShape(12.dp))
+
     ) {
         Box(
             modifier = Modifier
-                .border(4.dp, color = ethereumGold, shape = RoundedCornerShape(12.dp))
-                .align(Alignment.CenterStart)
-                .fillMaxHeight()
-                .width(48.dp)
-                .background(color = ethereumLightGrey, shape = RoundedCornerShape(12.dp))
-        )
-        Box(
-            modifier = Modifier
-                .border(4.dp, color = ethereumGold, shape = RoundedCornerShape(12.dp))
-                .align(Alignment.CenterEnd)
-                .fillMaxHeight()
-                .width(48.dp)
-                .background(color = ethereumLightGrey, shape = RoundedCornerShape(12.dp))
-        )
-        Row(
-            modifier = Modifier
-                .padding(4.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .align(Alignment.TopCenter)
+                .border(2.dp, color = ethereumGold, shape = RoundedCornerShape(8.dp))
+                .height(56.dp)
+                .wrapContentWidth()
+                .background(color = black, shape = RoundedCornerShape(8.dp))
         ) {
-            Image(
+            Box(
                 modifier = Modifier
-                    .padding(start = 4.dp, top = 8.dp, bottom = 8.dp)
-                    .size(32.dp)
-                    .align(Alignment.CenterVertically),
-                painter = baseLogoPainter,
-                contentDescription = "base logo",
-                contentScale = ContentScale.Inside
+                    .border(2.dp, color = ethereumGold, shape = RoundedCornerShape(8.dp))
+                    .align(Alignment.CenterStart)
+                    .fillMaxHeight()
+                    .width(48.dp)
+                    .background(color = ethereumLightGrey, shape = RoundedCornerShape(8.dp))
             )
-            Text(
+            Box(
                 modifier = Modifier
-                    .wrapContentWidth()
-                    .wrapContentHeight()
-                    .padding(start = 16.dp, end = 16.dp),
-                text = priceFlow.value,
-                color = priceColorFlow.value,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
+                    .border(2.dp, color = ethereumGold, shape = RoundedCornerShape(8.dp))
+                    .align(Alignment.CenterEnd)
+                    .fillMaxHeight()
+                    .width(48.dp)
+                    .background(color = ethereumLightGrey, shape = RoundedCornerShape(8.dp))
             )
-            Image(
+            Row(
                 modifier = Modifier
-                    .padding(end = 4.dp, top = 8.dp, bottom = 8.dp)
-                    .size(32.dp)
-                    .align(Alignment.CenterVertically),
-                painter = quoteLogoPainter,
-                contentDescription = "quote logo",
-                contentScale = ContentScale.Inside
-            )
+                    .padding(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    modifier = Modifier
+                        .padding(start = 4.dp, top = 8.dp, bottom = 8.dp)
+                        .size(32.dp)
+                        .align(Alignment.CenterVertically),
+                    painter = baseLogoPainter,
+                    contentDescription = "base logo",
+                    contentScale = ContentScale.Inside
+                )
+                Text(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight()
+                        .padding(start = 16.dp, end = 16.dp),
+                    text = priceFlow.value,
+                    color = priceColorFlow.value,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center
+                )
+                Image(
+                    modifier = Modifier
+                        .padding(end = 4.dp, top = 8.dp, bottom = 8.dp)
+                        .size(32.dp)
+                        .align(Alignment.CenterVertically),
+                    painter = quoteLogoPainter,
+                    contentDescription = "quote logo",
+                    contentScale = ContentScale.Inside
+                )
+            }
         }
+        Text(
+            modifier = Modifier
+                .border(2.dp, color = ethereumGold, shape = RoundedCornerShape(8.dp))
+                .align(Alignment.BottomCenter)
+                .wrapContentWidth()
+                .wrapContentHeight()
+                .background(color = black, shape = RoundedCornerShape(8.dp))
+                .padding(start = 8.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
+            text = "+19%",
+            color = priceColorFlow.value,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center
+        )
     }
+
 }
 
 @Preview
