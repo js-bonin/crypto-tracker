@@ -12,9 +12,36 @@ import kotlinx.coroutines.flow.map
 
 class MainViewModel(application: Application, private val ethereumTickerUseCase: EthereumTickerUseCase) : AndroidViewModel(application) {
 
-    fun ethereumPriceUSD() = ethereumTickerUseCase.ethereumPriceUSD()
+    fun ethereumPriceUSD() = ethereumTickerUseCase.priceUSD()
 
-    fun ethereumPriceColor() = ethereumTickerUseCase.lastPriceChangeTrend().map { trend ->
+    fun ethereumPriceUSDColor() = ethereumTickerUseCase.lastPriceUSDChangeTrend().map { trend ->
+        when (trend) {
+            PriceTrend.UP -> upColor
+            PriceTrend.DOWN -> downColor
+        }
+    }
+
+    fun ethereumPriceUSDPercentChange24hour() = ethereumTickerUseCase.priceUSDPercentChange24hour()
+
+    fun ethereumPriceUSDPercentChange24hourColor() = ethereumTickerUseCase.priceUSDPercentChangeTrend().map { trend ->
+        when (trend) {
+            PriceTrend.UP -> upColor
+            PriceTrend.DOWN -> downColor
+        }
+    }
+
+    fun ethereumPriceBTC() = ethereumTickerUseCase.priceBTC()
+
+    fun ethereumPriceBTCColor() = ethereumTickerUseCase.lastPriceBTCChangeTrend().map { trend ->
+        when (trend) {
+            PriceTrend.UP -> upColor
+            PriceTrend.DOWN -> downColor
+        }
+    }
+
+    fun ethereumPriceBTCPercentChange24hour() = ethereumTickerUseCase.priceBTCPercentChange24hour()
+
+    fun ethereumPriceBTCPercentChange24hourColor() = ethereumTickerUseCase.priceBTCPercentChangeTrend().map { trend ->
         when (trend) {
             PriceTrend.UP -> upColor
             PriceTrend.DOWN -> downColor

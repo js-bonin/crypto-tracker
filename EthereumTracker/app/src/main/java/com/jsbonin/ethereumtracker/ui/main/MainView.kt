@@ -44,8 +44,16 @@ import com.jsbonin.ethereumtracker.viewmodel.MainViewModel
 
 @Composable
 fun MainView(viewModel: MainViewModel) {
-    val ethPriceUSD = viewModel.ethereumPriceUSD().collectAsState(initial = "------")
-    val ethPriceColor = viewModel.ethereumPriceColor().collectAsState(initial = white)
+    val ethPriceUSD = viewModel.ethereumPriceUSD().collectAsState(initial = "---")
+    val ethPriceUSDColor = viewModel.ethereumPriceUSDColor().collectAsState(initial = white)
+    val ethPriceChange24hourUSD = viewModel.ethereumPriceUSDPercentChange24hour().collectAsState(initial = "---")
+    val ethPriceChange24hourUSDColor = viewModel.ethereumPriceUSDPercentChange24hourColor().collectAsState(initial = white)
+
+    val ethPriceBTC = viewModel.ethereumPriceBTC().collectAsState(initial = "---")
+    val ethPriceBTCColor = viewModel.ethereumPriceBTCColor().collectAsState(initial = white)
+    val ethPriceChange24hourBTC = viewModel.ethereumPriceBTCPercentChange24hour().collectAsState(initial = "---")
+    val ethPriceChange24hourBTCColor = viewModel.ethereumPriceBTCPercentChange24hourColor().collectAsState(initial = white)
+
 
     EthereumTrackerTheme {
         BoxWithConstraints(
@@ -62,12 +70,23 @@ fun MainView(viewModel: MainViewModel) {
                 contentDescription = "hero",
                 contentScale = ContentScale.Crop
             )
+            Image(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth()
+                    .align(Alignment.BottomCenter),
+                painter = painterResource(id = R.drawable.image_impact_transparent),
+                contentDescription = "impact",
+                contentScale = ContentScale.Inside
+            )
             TickerView(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(top = 226.dp),
                 priceFlow = ethPriceUSD,
-                priceColorFlow = ethPriceColor,
+                priceColorFlow = ethPriceUSDColor,
+                pricePercentChange24hourFlow = ethPriceChange24hourUSD,
+                pricePercentChange24hourColorFlow = ethPriceChange24hourUSDColor,
                 baseLogoPainter = painterResource(id = R.drawable.ic_logo_eth),
                 quoteLogoPainter = painterResource(id = R.drawable.ic_logo_usdt)
             )
@@ -75,13 +94,14 @@ fun MainView(viewModel: MainViewModel) {
             TickerView(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .padding(top = 308.dp),
-                priceFlow = ethPriceUSD,
-                priceColorFlow = ethPriceColor,
+                    .padding(top = 312.dp),
+                priceFlow = ethPriceBTC,
+                priceColorFlow = ethPriceBTCColor,
+                pricePercentChange24hourFlow = ethPriceChange24hourBTC,
+                pricePercentChange24hourColorFlow = ethPriceChange24hourBTCColor,
                 baseLogoPainter = painterResource(id = R.drawable.ic_logo_eth),
                 quoteLogoPainter = painterResource(id = R.drawable.ic_logo_btc)
             )
-
         }
 
     }
@@ -92,6 +112,8 @@ fun TickerView(
     modifier: Modifier,
     priceFlow: State<String>,
     priceColorFlow: State<Color>,
+    pricePercentChange24hourFlow: State<String>,
+    pricePercentChange24hourColorFlow: State<Color>,
     baseLogoPainter: Painter,
     quoteLogoPainter: Painter
 ) {
@@ -169,8 +191,8 @@ fun TickerView(
                 .wrapContentHeight()
                 .background(color = black, shape = RoundedCornerShape(8.dp))
                 .padding(start = 8.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
-            text = "+19%",
-            color = priceColorFlow.value,
+            text = pricePercentChange24hourFlow.value,
+            color = pricePercentChange24hourColorFlow.value,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
             textAlign = TextAlign.Center
@@ -185,6 +207,8 @@ fun TickerPreview() {
     TickerView(
         Modifier,
         remember { mutableStateOf("3600.85") },
+        remember { mutableStateOf(ethereumLightTeal) },
+        remember { mutableStateOf("+19%") },
         remember { mutableStateOf(ethereumLightTeal) },
         baseLogoPainter = painterResource(id = R.drawable.ic_logo_eth),
         quoteLogoPainter = painterResource(id = R.drawable.ic_logo_usdt)
