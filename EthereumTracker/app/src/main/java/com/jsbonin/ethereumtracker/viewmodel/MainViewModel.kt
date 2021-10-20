@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.map
 
 class MainViewModel(application: Application, private val ethereumTickerUseCase: EthereumTickerUseCase) : AndroidViewModel(application) {
 
+    fun miniTickerETHUSD() = ethereumTickerUseCase.miniTickerETHUSD()
+
     fun ethereumPriceUSD() = ethereumTickerUseCase.priceUSD()
 
     fun ethereumPriceUSDColor() = ethereumTickerUseCase.lastPriceUSDChangeTrend().map { trend ->

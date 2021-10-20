@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jsbonin.ethereumtracker.R
+import com.jsbonin.ethereumtracker.model.Candlestick
 import com.jsbonin.ethereumtracker.ui.theme.EthereumTrackerTheme
 import com.jsbonin.ethereumtracker.ui.theme.black
 import com.jsbonin.ethereumtracker.ui.theme.ethereumGold
@@ -54,6 +55,7 @@ fun MainView(viewModel: MainViewModel) {
     val ethPriceChange24hourBTC = viewModel.ethereumPriceBTCPercentChange24hour().collectAsState(initial = "---")
     val ethPriceChange24hourBTCColor = viewModel.ethereumPriceBTCPercentChange24hourColor().collectAsState(initial = white)
 
+    val ethUSDTCandlestick = viewModel.miniTickerETHUSD().collectAsState(initial = Candlestick())
 
     EthereumTrackerTheme {
         BoxWithConstraints(
@@ -78,6 +80,12 @@ fun MainView(viewModel: MainViewModel) {
                 painter = painterResource(id = R.drawable.image_impact_transparent),
                 contentDescription = "impact",
                 contentScale = ContentScale.Inside
+            )
+            CandlestickView(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth(),
+                candleFlow = ethUSDTCandlestick
             )
             TickerView(
                 modifier = Modifier
@@ -105,6 +113,38 @@ fun MainView(viewModel: MainViewModel) {
         }
 
     }
+}
+
+@Composable
+fun CandlestickView(
+    modifier: Modifier,
+    candleFlow: State<Candlestick>
+) {
+    val startWidth = 24.dp
+
+//    val highLowLine =
+
+        Box(modifier = modifier) {
+
+        }
+}
+
+@Preview
+@Composable
+fun CandlestickPreview() {
+    CandlestickView(
+        Modifier,
+        remember {
+            mutableStateOf(
+                Candlestick(
+                    openPrice = 3675.16,
+                    closePrice = 3823.36,
+                    highPrice = 3949.78,
+                    lowPrice = 3589.22
+                )
+            )
+        }
+    )
 }
 
 @Composable

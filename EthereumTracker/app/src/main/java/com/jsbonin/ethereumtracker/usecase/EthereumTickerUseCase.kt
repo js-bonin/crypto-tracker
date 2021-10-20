@@ -1,6 +1,7 @@
 package com.jsbonin.ethereumtracker.usecase
 
 import android.icu.text.NumberFormat
+import com.jsbonin.ethereumtracker.model.Candlestick
 import com.jsbonin.ethereumtracker.model.PriceTrend
 import com.jsbonin.ethereumtracker.repository.BinanceTickerRepository
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,17 @@ class EthereumTickerUseCase(private val binanceTickerRepository: BinanceTickerRe
 
     private var currentPriceUSDT: Double = 0.0
     private var currentPriceBTC: Double = 0.0
+
+    fun miniTickerETHUSD(): Flow<Candlestick> = binanceTickerRepository.miniTickerETHUSDTFlow()
+        .filter { it.closePrice.isNotEmpty() }
+        .map {
+            Candlestick(
+                openPrice = it.openPrice.toDouble(),
+                closePrice = it.closePrice.toDouble(),
+                highPrice = it.highPrice.toDouble(),
+                lowPrice = it.lowPrice.toDouble()
+            )
+        }
 
     //USDT
     private fun priceUSDDouble(): Flow<Double> = binanceTickerRepository.miniTickerETHUSDTFlow()
